@@ -19,11 +19,17 @@
             <th>Acciones</th>
         </thead>
         <tbody>
-            <tr>
-              <td>FelinoHost</td>
-              <td>0.0</td>
-              <td>Editar - Eliminar</td>
-            </tr>        
+          @forelse ($clients as $details)
+              <tr>
+                  <td>{{ $details->name }}</td>
+                  <td>{{ $details->due }}</td>
+                  <td>Editar - Eliminar</td>
+              </tr>  
+              
+          @empty
+              
+          @endforelse
+      
         </tbody>
       </table>
     </div>

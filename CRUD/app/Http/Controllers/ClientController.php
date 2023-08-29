@@ -5,7 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Client;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Session;
-use Symfony\Component\Routing\Matcher\RedirectableUrlMatcherInterface;
+
 
 class ClientController extends Controller
 {
@@ -14,8 +14,9 @@ class ClientController extends Controller
      */
     public function index()
     {   
-
-        return view('client.index');
+        $clients = Client::paginate(5);
+        return view('client.index')
+                ->with('clients',$clients);
     
     }
 
@@ -38,7 +39,7 @@ class ClientController extends Controller
 
         ]);
 
-        $client = Client::created($request->only('name','due','comments'));
+        $client = Client::create($request->only('name','due','coments'));
 
         Session::flash('mensaje', 'Registro creado con exito!');
 
