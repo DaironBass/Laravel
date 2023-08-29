@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 
 use App\Models\Client;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Session;
+use Symfony\Component\Routing\Matcher\RedirectableUrlMatcherInterface;
 
 class ClientController extends Controller
 {
@@ -11,8 +13,10 @@ class ClientController extends Controller
      * Display a listing of the resource.
      */
     public function index()
-    {
+    {   
+
         return view('client.index');
+    
     }
 
     /**
@@ -28,7 +32,17 @@ class ClientController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'name' => 'required|max:15',
+            'due' => 'required|gte:1'
+
+        ]);
+
+        $client = Client::created($request->only('name','due','comments'));
+
+        Session::flash('mensaje', 'Registro creado con exito!');
+
+        return redirect()->route('client.index');
     }
 
     /**
